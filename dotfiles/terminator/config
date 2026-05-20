@@ -1,0 +1,24 @@
+[global_config]
+[keybindings]
+[profiles]
+  [[default]]
+    background_color = "#2E3436"
+    foreground_color = "#D3D7CF"
+    palette = "#2E3436:#CC0000:#4E9A06:#C4A000:#3465A4:#75507B:#06989A:#D3D7CF:#555753:#EF2929:#8AE234:#FCE94F:#729FCF:#AD7FA8:#34E2E2:#EEEEEC"
+    title_transmit_fg_color = "#D3D7CF"
+    title_transmit_bg_color = "#555753"
+    title_receive_fg_color = "#D3D7CF"
+    title_receive_bg_color = "#4A5052"
+    title_inactive_fg_color = "#D3D7CF"
+    title_inactive_bg_color = "#2E3436"
+    use_custom_command = True
+    custom_command = zsh
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]
