@@ -121,7 +121,7 @@ let
 
     usage() {
       echo "Usage: zed-update-flake VERSION"
-      echo "Example: zed-update-flake 1.2.7"
+      echo "Example: zed-update-flake 1.3.5"
     }
 
     if [ "$#" -ne 1 ]; then
