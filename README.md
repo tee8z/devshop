@@ -95,11 +95,18 @@ disable Secure Boot.
 4. In the graphical installer, choose:
    - `Erase disk` when you want a clean install
    - the internal drive, not the USB drive
+   - disk encryption when offered
    - swap with hibernation if offered
    - allow unfree software
    - GNOME desktop, or no desktop if you plan to immediately apply this flake
 5. Create the normal user you plan to manage with this flake.
 6. Reboot into the installed system.
+
+The Devshop workstation template defaults to an encrypted root filesystem:
+`/boot` is the normal unencrypted EFI partition, and `/` is expected to live
+inside a LUKS device that opens during the initrd. Do not use plain swap on a
+separate disk partition; hibernation swap should either be encrypted by the
+installer or live inside the encrypted root filesystem.
 
 ### Apply Devshop After First Boot
 
@@ -119,7 +126,15 @@ sudo nixos-generate-config --show-hardware-config > hosts/workstation/hardware-c
 ```
 
 Review the generated file before committing it. Disk UUIDs and other hardware
-details are machine-specific.
+details are machine-specific. For an encrypted install, the generated file
+should include a `boot.initrd.luks.devices` entry. If it does not, stop and
+reinstall with disk encryption enabled before applying Devshop.
+
+This check should print at least one LUKS line on an encrypted install:
+
+```sh
+rg -n 'boot.initrd.luks|/dev/mapper|swapDevices' hosts/workstation/hardware-configuration.nix
+```
 
 Edit the placeholders at the top of `hosts/workstation/configuration.nix`.
 See [Customize First](#customize-first) below for the values that should be
@@ -186,6 +201,12 @@ sudo nixos-generate-config --show-hardware-config > hosts/workstation/hardware-c
 
 Review the generated file before committing it. Disk UUIDs and other hardware
 details are machine-specific.
+
+For the default encrypted layout, keep the generated
+`boot.initrd.luks.devices` entry and make sure `/` resolves to the unlocked
+LUKS mapping or the filesystem inside it. If the generated file contains a
+plain swap partition, remove it or replace it with encrypted swap before the
+first Devshop rebuild.
 
 ## Apply The Flake
 

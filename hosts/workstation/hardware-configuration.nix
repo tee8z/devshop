@@ -18,9 +18,17 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  boot.initrd.luks.devices."nixos-root" =
+    {
+      # Replace this with the LUKS container UUID or another stable path from
+      # the target machine, for example /dev/disk/by-uuid/<luks-uuid>.
+      device = "/dev/disk/by-label/cryptroot";
+      allowDiscards = true;
+    };
+
   fileSystems."/" =
     {
-      device = "/dev/disk/by-label/nixos";
+      device = "/dev/mapper/nixos-root";
       fsType = "ext4";
     };
 
@@ -31,6 +39,9 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  # Do not point swap at a plain block device on encrypted systems. Prefer a
+  # swapfile inside the encrypted root filesystem or add a separate LUKS swap
+  # mapping here.
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

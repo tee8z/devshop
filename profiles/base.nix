@@ -12,6 +12,7 @@
     git
     gh
     gnupg
+    cryptsetup
     curl
     wget
     ripgrep
