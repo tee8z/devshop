@@ -244,6 +244,9 @@ with the common workbench tools already pinned to the dock:
 [`modules/displaylink.nix`](../modules/displaylink.nix) enables the NixOS
 DisplayLink video driver path while keeping GDM/GNOME on Wayland.
 
+The module also exposes `devshop.displaylink.edidOverrides` for host-specific
+DisplayLink connectors that need a fixed EDID and hotplug trigger after docking.
+
 The helper script [`scripts/prefetch-displaylink.sh`](../scripts/prefetch-displaylink.sh)
 prefetches the Synaptics DisplayLink driver archive after EULA acceptance. Use
 `--rebuild-target` when your host flake output is not `.#workstation`.
