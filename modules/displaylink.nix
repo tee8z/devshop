@@ -161,7 +161,7 @@ in
               for connector in /sys/class/drm/card*-${override.connector}; do
                 modes="$connector/modes"
                 status="$connector/status"
-                if [ ! -e "$status" ] || [ -s "$modes" ]; then
+                if [ ! -e "$status" ] || ${pkgs.gnugrep}/bin/grep -q . "$modes"; then
                   continue
                 fi
 
