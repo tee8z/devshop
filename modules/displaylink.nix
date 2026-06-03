@@ -23,6 +23,7 @@ let
   serviceName = name: "displaylink-edid-override-${name}";
   edidArg = override: "drm.edid_firmware=${override.connector}:${override.firmwarePath}";
   videoArg = override: "video=${override.connector}:${override.forceMode}";
+  sysfsStatusMode = override: if override.forceMode == "D" then "on-digital" else "on";
   usbRule = name: override:
     lib.optionalString (override.usbVendorId != null && override.usbProductId != null) ''
       ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="${override.usbVendorId}", ATTR{idProduct}=="${override.usbProductId}", TAG+="systemd", ENV{SYSTEMD_WANTS}+="${serviceName name}.service"
@@ -155,6 +156,32 @@ in
             script = ''
               ${pkgs.coreutils}/bin/sleep ${toString override.delaySeconds}
               ${pkgs.edido}/bin/edido ${lib.escapeShellArg (edidArg override)} ${lib.escapeShellArg (videoArg override)}
+
+              shopt -s nullglob
+              for connector in /sys/class/drm/card*-${override.connector}; do
+                modes="$connector/modes"
+                status="$connector/status"
+                if [ ! -e "$status" ] || [ -s "$modes" ]; then
+                  continue
+                fi
+
+                stamp="/run/${serviceName name}-$(${pkgs.coreutils}/bin/basename "$connector").status-trigger"
+                now="$(${pkgs.coreutils}/bin/date +%s)"
+                last="$(${pkgs.coreutils}/bin/cat "$stamp" 2>/dev/null || true)"
+                case "$last" in
+                  "" | *[!0-9]*) last=0 ;;
+                esac
+                if [ "$((now - last))" -lt 10 ]; then
+                  echo "Skipping sysfs status fallback for $connector; triggered recently"
+                  continue
+                fi
+
+                echo "$now" > "$stamp"
+                echo "Writing ${sysfsStatusMode override} to $status after EDID override left no modes"
+                if ! echo ${lib.escapeShellArg (sysfsStatusMode override)} > "$status"; then
+                  echo "Unable to write sysfs status fallback for $connector" >&2
+                fi
+              done
             '';
           })
         edidOverrides;
