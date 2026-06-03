@@ -6,6 +6,11 @@ let
 
   edidOverrides = cfg.edidOverrides;
   hasEdidOverrides = edidOverrides != { };
+  hasEvdiConnectEdidFile = cfg.evdiConnectEdidFile != null;
+
+  evdiEdidShim = pkgs.callPackage ../packages/displaylink-evdi-edid-shim.nix {
+    realLibevdi = config.boot.kernelPackages.evdi;
+  };
 
   edidFirmwarePackages = lib.mapAttrsToList
     (name: override:
@@ -40,6 +45,15 @@ in
       default = 1;
       description = ''
         Number of EVDI DRM devices to create before the display manager starts.
+      '';
+    };
+
+    evdiConnectEdidFile = mkOption {
+      type = types.nullOr types.path;
+      default = null;
+      description = ''
+        Optional EDID file to inject into DisplayLinkManager's libevdi connect
+        calls when the manager detects a monitor but EVDI receives no EDID.
       '';
     };
 
@@ -140,7 +154,13 @@ in
       {
         # The NixOS DisplayLink service exists when the displaylink video driver is
         # enabled, but does not always get pulled into a normal graphical boot.
-        dlm.wantedBy = [ "multi-user.target" ];
+        dlm = {
+          wantedBy = [ "multi-user.target" ];
+          environment = lib.mkIf hasEvdiConnectEdidFile {
+            DEVSHOP_DISPLAYLINK_EVDI_EDID = "${cfg.evdiConnectEdidFile}";
+            LD_LIBRARY_PATH = "${evdiEdidShim}/lib";
+          };
+        };
       }
       // lib.mapAttrs'
         (name: override:
