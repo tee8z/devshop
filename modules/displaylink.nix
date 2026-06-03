@@ -9,7 +9,13 @@ let
 
   edidFirmwarePackages = lib.mapAttrsToList
     (name: override:
-      pkgs.runCommand "displaylink-${name}-edid-firmware" { } ''
+      pkgs.runCommand "displaylink-${name}-edid-firmware"
+        {
+          # edido writes the EDID bytes through DRM debugfs and expects the
+          # exact uncompressed firmware filename passed in drm.edid_firmware.
+          compressFirmware = false;
+        }
+        ''
         install -D -m 0644 ${override.edidFile} "$out/lib/firmware/${override.firmwarePath}"
       '')
     edidOverrides;
