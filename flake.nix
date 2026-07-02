@@ -9,7 +9,7 @@
   outputs = { self, nixpkgs, nixpkgs-zed, ... }:
     let
       system = "x86_64-linux";
-      zedVersion = "1.7.2";
+      zedVersion = "1.9.0";
       devshopProfiles = {
         base = ./profiles/base.nix;
         desktop = ./profiles/desktop.nix;
@@ -34,7 +34,7 @@
             src = final.fetchurl {
               url = "https://cloud.zed.dev/releases/stable/${zedVersion}/download?asset=zed&arch=x86_64&os=linux&source=install.sh";
               name = "zed-${zedVersion}-linux-x86_64.tar.gz";
-              hash = "sha256-udaYeTTCoDgz9fGWUI8Vq4ho1COW3Bp2Bxhq1w1unAI=";
+              hash = "sha256-OeVTzjoA/ut46rY6XLcjfLRg88lZaxsZBSzre56OxN0=";
             };
 
             sourceRoot = "zed.app";
