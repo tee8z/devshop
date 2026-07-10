@@ -1,6 +1,6 @@
 { lib
 , stdenvNoCC
-, electron_40
+, electron_41
 , makeWrapper
 , nodejs
 , pgadmin4-desktopmode
@@ -11,6 +11,7 @@
 }:
 
 let
+  yarnPatch = ./pgadmin4-runtime-yarn-4.14.patch;
   pgAdminServer = writeShellScriptBin "pgadmin4-runtime-server" ''
     exec ${lib.getExe pgadmin4-desktopmode}
   '';
@@ -21,7 +22,8 @@ stdenvNoCC.mkDerivation {
 
   offlineCache = yarn-berry_4.fetchYarnBerryDeps {
     src = pgadmin4-desktopmode.src + "/runtime";
-    hash = "sha256-vOOpeVscLUupSmyDoA1ibB9IUVVjDZZZlQUXWCAYtGw=";
+    patches = [ yarnPatch ];
+    hash = "sha256-5HgNY6ulpPppAhoIQjGWc+b+5xbR9y/CrXus+HCcMEk=";
   };
 
   nativeBuildInputs = [
@@ -35,6 +37,10 @@ stdenvNoCC.mkDerivation {
     ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
     YARN_ENABLE_SCRIPTS = "0";
   };
+
+  postPatch = ''
+    patch -d runtime -p1 < ${yarnPatch}
+  '';
 
   configurePhase = ''
     runHook preConfigure
@@ -72,7 +78,7 @@ stdenvNoCC.mkDerivation {
     }
     EOF
 
-    makeWrapper ${lib.getExe electron_40} "$out/bin/pgadmin4-desktop" \
+    makeWrapper ${lib.getExe electron_41} "$out/bin/pgadmin4-desktop" \
       --chdir "$app_dir" \
       --add-flags "$app_dir"
 

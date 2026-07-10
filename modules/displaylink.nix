@@ -124,10 +124,6 @@ in
       "displaylink"
     ];
 
-    # GNOME 49 no longer exposes a GNOME Xorg session in this nixpkgs pin.
-    # Keep GDM/GNOME on Wayland and let DisplayLink/EVDI provide the USB monitor.
-    services.displayManager.gdm.wayland = lib.mkForce true;
-
     # Create EVDI DRM devices before GNOME starts so DisplayLink outputs are
     # present for the compositor instead of being hot-added after login.
     boot.extraModprobeConfig = ''

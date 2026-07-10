@@ -79,7 +79,7 @@ hardware inspection utilities.
 | [usbutils](https://github.com/gregkh/usbutils) | `usbutils` | USB inspection tools. |
 | [pciutils](https://mj.ucw.cz/sw/pciutils/) | `pciutils` | PCI inspection tools. |
 | [ethtool](https://www.kernel.org/pub/software/network/ethtool/) | `ethtool` | Network interface inspection and tuning. |
-| [xrandr](https://www.x.org/wiki/Projects/XRandR/) | `xorg.xrandr` | X display configuration. |
+| [xrandr](https://www.x.org/wiki/Projects/XRandR/) | `xrandr` | X display configuration. |
 | [ARandR](https://christian.amsuess.com/tools/arandr/) | `arandr` | X display layout UI. |
 
 ## Frontend Profile

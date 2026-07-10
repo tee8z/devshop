@@ -295,7 +295,6 @@ in
     "modesetting"
   ];
   services.displayManager.gdm.enable = true;
-  services.displayManager.gdm.wayland = true;
   services.desktopManager.gnome = {
     enable = true;
     favoriteAppsOverride = ''
@@ -552,15 +551,15 @@ in
       wayland
       libxkbcommon
       libGL
-      xorg.libX11
-      xorg.libxcb
-      xorg.libXcursor
-      xorg.libXi
-      xorg.libXrandr
-      xorg.libXrender
-      xorg.libXfixes
-      xorg.libXext
-      xorg.libxkbfile
+      libx11
+      libxcb
+      libxcursor
+      libxi
+      libxrandr
+      libxrender
+      libxfixes
+      libxext
+      libxkbfile
       vulkan-loader
       fontconfig
       freetype
