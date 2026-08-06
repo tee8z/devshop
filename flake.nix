@@ -4,13 +4,15 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-zed.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # Track the current VS Code Stable package independently of NixOS Stable.
+    # Use current VS Code packaging independently of the NixOS Stable package set.
     nixpkgs-vscode.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs = { self, nixpkgs, nixpkgs-zed, nixpkgs-vscode, ... }:
     let
       system = "x86_64-linux";
+      vscodeVersion = "1.132.0";
+      vscodeRevision = "df53daabb18cd157bdb08c7f01c34df936cf12f4";
       zedVersion = "1.10.0";
       devshopProfiles = {
         base = ./profiles/base.nix;
@@ -34,7 +36,30 @@
           pgadmin4-runtime = final.callPackage ./packages/pgadmin4-runtime.nix { };
 
           # VS Code 1.121+ renders Mermaid diagrams natively with pan and zoom.
-          vscode = vscodePkgs.vscode;
+          vscode = vscodePkgs.vscode.overrideAttrs (oldAttrs: {
+            version = vscodeVersion;
+            src = vscodePkgs.fetchurl {
+              name = "VSCode_${vscodeVersion}_linux-x64.tar.gz";
+              url = "https://update.code.visualstudio.com/${vscodeVersion}/linux-x64/stable";
+              hash = "sha256-rNrw+lV72hcglW/2XKDeCWXpLWj5fi2yI0GYRACTeu0=";
+            };
+            passthru = oldAttrs.passthru // {
+              inherit vscodeVersion;
+              rev = vscodeRevision;
+              vscodeServer = vscodePkgs.srcOnly {
+                name = "vscode-server-${vscodeRevision}.tar.gz";
+                src = vscodePkgs.fetchurl {
+                  name = "vscode-server-${vscodeRevision}.tar.gz";
+                  url = "https://update.code.visualstudio.com/commit:${vscodeRevision}/server-linux-x64/stable";
+                  hash = "sha256-rfWBY2apqMQwdF+W/Xg99w52BqNTEZmarFO3CyV668A=";
+                };
+                stdenv = vscodePkgs.stdenvNoCC;
+              };
+            };
+            meta = oldAttrs.meta // {
+              changelog = "https://code.visualstudio.com/updates/v1_132";
+            };
+          });
 
           zed-editor = final.stdenvNoCC.mkDerivation {
             pname = "zed-editor";
