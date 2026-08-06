@@ -4,9 +4,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-zed.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Track the current VS Code Stable package independently of NixOS Stable.
+    nixpkgs-vscode.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-zed, ... }:
+  outputs = { self, nixpkgs, nixpkgs-zed, nixpkgs-vscode, ... }:
     let
       system = "x86_64-linux";
       zedVersion = "1.10.0";
@@ -23,9 +25,16 @@
       desktopOverlay = final: prev:
         let
           zedPkgs = nixpkgs-zed.legacyPackages.${system};
+          vscodePkgs = import nixpkgs-vscode {
+            inherit system;
+            config.allowUnfree = true;
+          };
         in
         {
           pgadmin4-runtime = final.callPackage ./packages/pgadmin4-runtime.nix { };
+
+          # VS Code 1.121+ renders Mermaid diagrams natively with pan and zoom.
+          vscode = vscodePkgs.vscode;
 
           zed-editor = final.stdenvNoCC.mkDerivation {
             pname = "zed-editor";
