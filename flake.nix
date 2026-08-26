@@ -3,12 +3,14 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    # Use current sccache packaging independently of the NixOS Stable package set.
+    nixpkgs-sccache.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-zed.url = "github:NixOS/nixpkgs/nixos-unstable";
     # Use current VS Code packaging independently of the NixOS Stable package set.
     nixpkgs-vscode.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-zed, nixpkgs-vscode, ... }:
+  outputs = { self, nixpkgs, nixpkgs-sccache, nixpkgs-zed, nixpkgs-vscode, ... }:
     let
       system = "x86_64-linux";
       vscodeVersion = "1.132.0";
@@ -27,6 +29,7 @@
       desktopOverlay = final: prev:
         let
           zedPkgs = nixpkgs-zed.legacyPackages.${system};
+          sccachePkgs = nixpkgs-sccache.legacyPackages.${system};
           vscodePkgs = import nixpkgs-vscode {
             inherit system;
             config.allowUnfree = true;
@@ -34,6 +37,7 @@
         in
         {
           pgadmin4-runtime = final.callPackage ./packages/pgadmin4-runtime.nix { };
+          sccache = sccachePkgs.sccache;
 
           # VS Code 1.121+ renders Mermaid diagrams natively with pan and zoom.
           vscode = vscodePkgs.vscode.overrideAttrs (oldAttrs: {
