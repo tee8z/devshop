@@ -639,12 +639,15 @@ in
   '';
 
   system.activationScripts.installUserCodexSkills.text = ''
-    home=${lib.escapeShellArg homeDirectory}
-    skill_dir="$home/.codex/skills/git-commit-policy"
+    user_home=${lib.escapeShellArg homeDirectory}
+    skills_dir="$user_home/.codex/skills"
+    commit_skill_dir="$skills_dir/git-commit-policy"
+    docs_skill_dir="$skills_dir/ste-system-docs"
 
-    if [ -d "$home" ]; then
-      install -d -m 0755 -o ${lib.escapeShellArg userName} -g users "$skill_dir"
-      install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/git-commit-policy/SKILL.md} "$skill_dir/SKILL.md"
+    if [ -d "$user_home" ]; then
+      install -d -m 0755 -o ${lib.escapeShellArg userName} -g users "$commit_skill_dir" "$docs_skill_dir"
+      install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/git-commit-policy/SKILL.md} "$commit_skill_dir/SKILL.md"
+      install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/ste-system-docs/SKILL.md} "$docs_skill_dir/SKILL.md"
     fi
   '';
 

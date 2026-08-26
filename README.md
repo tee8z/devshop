@@ -320,10 +320,14 @@ cd ~/repos/devshop
 ## AI Agent Guidance
 
 Devshop includes `AGENTS.md` with tool-neutral guidance for AI assistants.
-Applying the flake also installs a Codex-compatible `git-commit-policy` skill to
-`~/.codex/skills/git-commit-policy`.
+Applying the flake also installs these Codex-compatible skills to
+`~/.codex/skills`:
 
-The default policy is to use Conventional Commits, sign commits, and avoid staging unrelated work.
+- `git-commit-policy` for Conventional Commits and signed commits.
+- `ste-system-docs` for STE-informed system documentation, runbooks,
+  troubleshooting guides, and useful Mermaid diagrams.
+
+The commit policy also avoids staging unrelated work.
 
 ## Rust Build Cache
 

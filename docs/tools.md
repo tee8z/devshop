@@ -279,3 +279,6 @@ The workstation activation scripts install small user configs from
 - [`git-commit-policy`](../dotfiles/codex/skills/git-commit-policy/SKILL.md),
   a Codex-compatible skill that defaults to Conventional Commits and signed
   commits.
+- [`ste-system-docs`](../dotfiles/codex/skills/ste-system-docs/SKILL.md), a
+  Codex-compatible skill that uses STE-informed prose and Mermaid diagrams for
+  system documentation, runbooks, troubleshooting, and debugging.
