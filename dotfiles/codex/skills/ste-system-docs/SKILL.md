@@ -1,8 +1,8 @@
 ---
 name: ste-system-docs
-description: Create or revise Markdown that explains software systems, architecture, operations, runbooks, troubleshooting, or debugging. Apply ASD-STE100-inspired controlled English and use Mermaid when relationships, sequences, states, or decisions are easier to see than read. Do not use for ordinary prose or code-only tasks.
+description: Create or revise Markdown that explains software systems, architecture, operations, runbooks, troubleshooting, or debugging. Apply ASD-STE100-inspired controlled English and use semantically faithful Mermaid, ASCII, or tabular visuals when they explain more clearly than prose. Do not use for ordinary prose or code-only tasks.
 metadata:
-  short-description: Clear system docs with STE and Mermaid
+  short-description: Clear system docs with STE and faithful visuals
 ---
 
 # STE System Documentation
@@ -55,15 +55,28 @@ primary reference.
 
 ## Show The System
 
-Use the smallest visual that makes an important relationship clear:
+Start with the facts and relationships that the reader must understand. Then,
+select the visual form that represents those facts without distortion. Do not
+change, omit, merge, reorder, or invent relationships to fit a diagram type.
+
+Use the smallest faithful visual:
 
 - Use a Mermaid `flowchart` for components, data flow, dependencies, or a
-  diagnostic decision tree.
+  diagnostic decision tree when the graph model fits the system.
 - Use a Mermaid `sequenceDiagram` for a request, event, protocol, or debugging
-  trace across participants.
-- Use a Mermaid `stateDiagram-v2` for lifecycle states and transitions.
-- Use a Mermaid `erDiagram` for important data relationships.
+  trace when participants and ordered messages are the primary facts.
+- Use a Mermaid state or data diagram only when its native semantics match the
+  real states, transitions, entities, or relationships.
+- Use a plain ASCII diagram for irregular topology, nesting, layers, file trees,
+  memory or packet layouts, terminal-safe output, or any structure that Mermaid
+  cannot show clearly and accurately.
 - Use a Markdown table for exact mappings or compact comparisons.
+- Use prose or a list when a diagram does not improve comprehension.
+
+A custom ASCII diagram is better than a misleading standard diagram. Put ASCII
+art in a fenced `text` block. Use spaces for alignment and prefer portable ASCII
+characters such as `+`, `-`, `|`, `/`, `\`, and arrows made from `>` or `<`.
+Keep the diagram readable in a normal-width monospaced view.
 
 Put Mermaid source in a fenced `mermaid` block. Use syntax that renders in
 GitHub and the built-in VS Code Markdown preview. Keep labels short. Use the
@@ -92,6 +105,8 @@ Before delivery:
 
 - Verify each technical claim against the available evidence.
 - Check terminology, sentence length, active voice, and instruction order.
-- Check that each visual answers a question that prose would answer less well.
-- Render or validate Mermaid with repository tooling when it is available.
+- Check that each visual is faithful and answers a question that prose would
+  answer less well.
+- Render or validate Mermaid when tooling is available. Inspect ASCII alignment
+  in a monospaced view.
 - Confirm that commands are safe, scoped, and consistent with the user's task.

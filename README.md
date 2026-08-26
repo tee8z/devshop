@@ -325,7 +325,7 @@ Applying the flake also installs these Codex-compatible skills to
 
 - `git-commit-policy` for Conventional Commits and signed commits.
 - `ste-system-docs` for STE-informed system documentation, runbooks,
-  troubleshooting guides, and useful Mermaid diagrams.
+  troubleshooting guides, and faithful Mermaid or ASCII diagrams.
 
 The commit policy also avoids staging unrelated work.
 
