@@ -22,8 +22,8 @@ Profiles are NixOS modules under `profiles/`. Compose only the tool groups a
 machine needs, or use `profiles/all.nix` for a full development workstation.
 For the complete linked inventory, see [Devshop Tools](docs/tools.md).
 
-- `base`: shell, Git/GitHub, GPG, SSH, direnv, tmux, ripgrep, fd, jq, and common
-Unix utilities.
+- `base`: shell, Git/GitHub, `via`, GPG, SSH, direnv, tmux, ripgrep, fd, jq, and
+  common Unix utilities.
 - `desktop`: GNOME-oriented desktop apps, browsers, editors, docs/capture tools,
 fonts, and hardware diagnostics.
 - `frontend`: Node.js 22, Corepack, and fnm for JavaScript/TypeScript work.

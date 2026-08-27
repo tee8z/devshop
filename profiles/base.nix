@@ -11,6 +11,7 @@
     zsh
     git
     gh
+    via-cli
     gnupg
     cryptsetup
     curl

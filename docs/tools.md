@@ -31,6 +31,7 @@ Common shell, Git, security, transfer, and terminal utilities.
 | [Zsh](https://www.zsh.org/) | `zsh` | Interactive shell. |
 | [Git](https://git-scm.com/) | `git` | Version control. |
 | [GitHub CLI](https://cli.github.com/) | `gh` | GitHub workflow automation. |
+| [`via`](https://github.com/tee8z/via) | `via-cli` | 1Password-backed service integration CLI. |
 | [GnuPG](https://gnupg.org/) | `gnupg` | Signing and encryption. |
 | [curl](https://curl.se/) | `curl` | HTTP and network transfer. |
 | [GNU Wget](https://www.gnu.org/software/wget/) | `wget` | HTTP and FTP downloads. |

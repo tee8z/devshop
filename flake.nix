@@ -8,9 +8,13 @@
     nixpkgs-zed.url = "github:NixOS/nixpkgs/nixos-unstable";
     # Use current VS Code packaging independently of the NixOS Stable package set.
     nixpkgs-vscode.url = "github:NixOS/nixpkgs/nixos-unstable";
+    viaSrc = {
+      url = "github:tee8z/via/v0.5.0";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-sccache, nixpkgs-zed, nixpkgs-vscode, ... }:
+  outputs = { self, nixpkgs, nixpkgs-sccache, nixpkgs-zed, nixpkgs-vscode, viaSrc, ... }:
     let
       system = "x86_64-linux";
       vscodeVersion = "1.132.0";
@@ -38,6 +42,7 @@
         {
           pgadmin4-runtime = final.callPackage ./packages/pgadmin4-runtime.nix { };
           sccache = sccachePkgs.sccache;
+          via-cli = final.callPackage ./packages/via-cli.nix { inherit viaSrc; };
 
           # VS Code 1.121+ renders Mermaid diagrams natively with pan and zoom.
           vscode = vscodePkgs.vscode.overrideAttrs (oldAttrs: {
