@@ -644,12 +644,14 @@ in
     commit_skill_dir="$skills_dir/git-commit-policy"
     docs_skill_dir="$skills_dir/ste-system-docs"
     stack_skill_dir="$skills_dir/github-stacked-prs"
+    via_skill_dir="$skills_dir/via-integrations"
 
     if [ -d "$user_home" ]; then
-      install -d -m 0755 -o ${lib.escapeShellArg userName} -g users "$commit_skill_dir" "$docs_skill_dir" "$stack_skill_dir"
+      install -d -m 0755 -o ${lib.escapeShellArg userName} -g users "$commit_skill_dir" "$docs_skill_dir" "$stack_skill_dir" "$via_skill_dir"
       install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/git-commit-policy/SKILL.md} "$commit_skill_dir/SKILL.md"
       install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/ste-system-docs/SKILL.md} "$docs_skill_dir/SKILL.md"
       install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/github-stacked-prs/SKILL.md} "$stack_skill_dir/SKILL.md"
+      install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/via-integrations/SKILL.md} "$via_skill_dir/SKILL.md"
     fi
   '';
 

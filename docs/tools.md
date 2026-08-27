@@ -286,3 +286,6 @@ The workstation activation scripts install small user configs from
   Codex-compatible skill that uses STE-informed prose and faithful Mermaid or
   ASCII diagrams for system documentation, runbooks, troubleshooting, and
   debugging.
+- [`via-integrations`](../dotfiles/codex/skills/via-integrations/SKILL.md), a
+  Codex-compatible skill for accessing configured services, including Linear,
+  through `via` without handling API secrets directly.

@@ -328,6 +328,8 @@ Applying the flake also installs these Codex-compatible skills to
   stacks for large features with dependent review layers.
 - `ste-system-docs` for STE-informed system documentation, runbooks,
   troubleshooting guides, and faithful Mermaid or ASCII diagrams.
+- `via-integrations` for accessing configured services, including Linear,
+  through `via` without handling API secrets directly.
 
 The commit policy also avoids staging unrelated work.
 
