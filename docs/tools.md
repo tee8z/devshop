@@ -279,6 +279,9 @@ The workstation activation scripts install small user configs from
 - [`git-commit-policy`](../dotfiles/codex/skills/git-commit-policy/SKILL.md),
   a Codex-compatible skill that defaults to Conventional Commits and signed
   commits.
+- [`github-stacked-prs`](../dotfiles/codex/skills/github-stacked-prs/SKILL.md),
+  a Codex-compatible skill for planning and managing formally linked GitHub PR
+  stacks for large features with dependent review layers.
 - [`ste-system-docs`](../dotfiles/codex/skills/ste-system-docs/SKILL.md), a
   Codex-compatible skill that uses STE-informed prose and faithful Mermaid or
   ASCII diagrams for system documentation, runbooks, troubleshooting, and

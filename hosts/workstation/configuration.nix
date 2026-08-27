@@ -643,11 +643,13 @@ in
     skills_dir="$user_home/.codex/skills"
     commit_skill_dir="$skills_dir/git-commit-policy"
     docs_skill_dir="$skills_dir/ste-system-docs"
+    stack_skill_dir="$skills_dir/github-stacked-prs"
 
     if [ -d "$user_home" ]; then
-      install -d -m 0755 -o ${lib.escapeShellArg userName} -g users "$commit_skill_dir" "$docs_skill_dir"
+      install -d -m 0755 -o ${lib.escapeShellArg userName} -g users "$commit_skill_dir" "$docs_skill_dir" "$stack_skill_dir"
       install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/git-commit-policy/SKILL.md} "$commit_skill_dir/SKILL.md"
       install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/ste-system-docs/SKILL.md} "$docs_skill_dir/SKILL.md"
+      install -m 0644 -o ${lib.escapeShellArg userName} -g users ${../../dotfiles/codex/skills/github-stacked-prs/SKILL.md} "$stack_skill_dir/SKILL.md"
     fi
   '';
 

@@ -324,6 +324,8 @@ Applying the flake also installs these Codex-compatible skills to
 `~/.codex/skills`:
 
 - `git-commit-policy` for Conventional Commits and signed commits.
+- `github-stacked-prs` for planning and managing formally linked GitHub PR
+  stacks for large features with dependent review layers.
 - `ste-system-docs` for STE-informed system documentation, runbooks,
   troubleshooting guides, and faithful Mermaid or ASCII diagrams.
 
