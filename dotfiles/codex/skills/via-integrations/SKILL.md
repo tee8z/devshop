@@ -1,52 +1,29 @@
 ---
 name: via-integrations
-description: Use when the user references a Linear URL, Linear issue, team, project, or asks to create, read, update, search, or comment on Linear issues. Use the `via` command line tool as the proxy for configured third-party services; Linear is available through `via linear api`.
+description: Use for Linear API URLs, issues, teams, projects, reads, searches, comments, or mutations. Access services through `via`; use `via linear api` for Linear.
 metadata:
   short-description: Access Linear through via
 ---
 
 # Via Integrations
 
-Use `via` for configured third-party service access. For Linear, do not bypass
-`via` with direct API tokens or ad hoc credential handling.
+Use `via` as the proxy for configured services. Never bypass it with direct API
+tokens or ad hoc credentials.
 
-## Linear
-
-Use the configured Linear capability:
+Send GraphQL through the configured capability:
 
 ```sh
 via linear api POST /graphql --json '{"query":"{ viewer { id name } }"}'
 ```
 
-Expected authentication smoke-test shape:
+For links, extract the identifier and query Linear. Resolve entity IDs instead
+of guessing. For issue creation, ask only for missing required details, resolve
+team and project IDs, use `issueCreate`, and return the issue identifier and URL.
 
-```json
-{"data":{"viewer":{"id":"<connection-id>","name":"via connection"}}}
-```
+For non-trivial requests, use a temporary JSON payload with `--json @<file>` to
+avoid fragile shell quoting.
 
-For non-trivial GraphQL requests, prefer a temporary JSON payload file and
-`--json @/tmp/file.json` to avoid fragile shell quoting.
-
-When the user provides a Linear link:
-
-- Extract the issue identifier or URL from the link.
-- Query Linear through `via linear api POST /graphql`.
-- Resolve IDs from Linear rather than guessing.
-
-When the user asks to create a Linear issue:
-
-- Ask only for missing required product details, such as title, team, project, or description.
-- Resolve the target team/project IDs through Linear GraphQL.
-- Create the issue through `via linear api POST /graphql` using the `issueCreate` mutation.
-- Return the created issue identifier and URL.
-
-Useful local references:
-
-- `$HOME/repos/via/README.md`
-- `$HOME/repos/via/docs/linear-oauth-setup.md`
-- `$HOME/repos/via/examples/linear.toml`
-
-Setup checks, when Linear access fails:
+If access fails, diagnose with:
 
 ```sh
 via login
@@ -54,5 +31,5 @@ via config doctor linear
 via capabilities
 ```
 
-Do not paste OAuth tokens, client secrets, refresh tokens, or other secret
-material into prompts, issue comments, logs, or terminal output.
+Never expose OAuth tokens, client secrets, refresh tokens, or other secrets in
+prompts, comments, logs, or terminal output.

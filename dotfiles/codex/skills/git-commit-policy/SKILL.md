@@ -1,24 +1,23 @@
 ---
 name: git-commit-policy
-description: Use whenever creating, amending, rewriting, or advising on Git commits. Enforces Conventional Commit messages and signed commits by default unless the user explicitly requests otherwise.
+description: Use for Git commit creation, amendment, rewriting, or advice. Require Conventional Commits and signatures unless the user opts out.
 metadata:
   short-description: Conventional, signed Git commits
 ---
 
 # Git Commit Policy
 
-When making or amending commits:
+When creating or revising commits:
 
-- Use Conventional Commits: `type(scope): subject`.
-- Prefer these types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
-- Use a scope when it adds useful context, for example `feat(nixos): add workstation module`.
-- Keep the subject concise, imperative, and lower-case unless it contains a proper noun.
-- Include a body only when it materially explains motivation, tradeoffs, or migration notes.
-- Sign commits by default with `git commit -S` or `git commit --amend -S`.
+- Inspect `git status --short`. Stage only task files; exclude unrelated changes
+  and secret material.
+- Use `type(scope): imperative subject`. Include a scope only when useful. Keep
+  the subject concise and lower-case, except for proper nouns.
+- Prefer `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`,
+  `ci`, `chore`, or `revert`.
+- Add a body only for material motivation, tradeoffs, or migration notes.
+- Sign with `git commit -S` or `git commit --amend -S`.
 - If signing fails, stop and report the signing problem instead of silently creating an unsigned commit.
-- Do not stage unrelated work. Check `git status --short` first and stage only files needed for the requested change.
 
-If the user explicitly asks for a different message style or an unsigned commit, follow that request and mention the deviation.
-
-Keep this skill aligned with the repository-level `AGENTS.md` guidance in
-Devshop.
+Honor an explicit request for another message style or an unsigned commit, and
+state the deviation.
