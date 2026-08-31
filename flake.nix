@@ -19,7 +19,8 @@
       system = "x86_64-linux";
       vscodeVersion = "1.132.0";
       vscodeRevision = "df53daabb18cd157bdb08c7f01c34df936cf12f4";
-      zedVersion = "1.10.0";
+      zedVersion = "1.17.2";
+      zedHash = "sha256-NoLdBYowXSskahTWRBn89C6GoG4ndV0jtaKGIu2a74U=";
       devshopProfiles = {
         base = ./profiles/base.nix;
         desktop = ./profiles/desktop.nix;
@@ -77,7 +78,7 @@
             src = final.fetchurl {
               url = "https://cloud.zed.dev/releases/stable/${zedVersion}/download?asset=zed&arch=x86_64&os=linux&source=install.sh";
               name = "zed-${zedVersion}-linux-x86_64.tar.gz";
-              hash = "sha256-XImEPWl4JJnzXU8eJx0uIdPgqGCmnvrJcEV1HJE1PJ8=";
+              hash = zedHash;
             };
 
             sourceRoot = "zed.app";

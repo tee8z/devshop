@@ -121,7 +121,7 @@ let
 
     usage() {
       echo "Usage: zed-update-flake VERSION"
-      echo "Example: zed-update-flake 1.3.5"
+      echo "Example: zed-update-flake 1.17.2"
     }
 
     if [ "$#" -ne 1 ]; then
@@ -160,14 +160,14 @@ let
       exit 1
     fi
 
-    if ! ${pkgs.gnugrep}/bin/grep -q 'hash = "sha256-' "$flake"; then
-      echo "Could not find the Zed fetchurl hash in $flake" >&2
+    if ! ${pkgs.gnugrep}/bin/grep -q 'zedHash = "sha256-' "$flake"; then
+      echo "Could not find zedHash in $flake" >&2
       exit 1
     fi
 
     ZED_VERSION_NEW="$version" ZED_HASH_NEW="$hash" ${pkgs.perl}/bin/perl -0pi -e '
       s/zedVersion = "[^"]+";/zedVersion = "$ENV{ZED_VERSION_NEW}";/;
-      s/hash = "sha256-[^"]+";/hash = "$ENV{ZED_HASH_NEW}";/;
+      s/zedHash = "sha256-[^"]+";/zedHash = "$ENV{ZED_HASH_NEW}";/;
     ' "$flake"
 
     ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt "$flake"

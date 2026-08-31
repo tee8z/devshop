@@ -396,7 +396,7 @@ requires changing both the version and the fixed-output hash. After applying thi
 config once, use:
 
 ```sh
-zed-update-flake 1.3.5
+zed-update-flake 1.17.2
 rebuild
 ```
 
