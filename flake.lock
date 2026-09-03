@@ -76,16 +76,16 @@
     "viaSrc": {
       "flake": false,
       "locked": {
-        "lastModified": 1781714057,
-        "narHash": "sha256-Ho+sYFH3qkXfXqadOwvLghwE6Kh7DXeMdqjR1oxvh/M=",
+        "lastModified": 1788459761,
+        "narHash": "sha256-/M0pr2IIOXTTvtDPA61a6l04bMOoQWpowocXz9PmOh0=",
         "owner": "tee8z",
         "repo": "via",
-        "rev": "2c08d6342e1da50838763320732c060714406084",
+        "rev": "87d1301158d9c1ac585110869f8bb993b15270da",
         "type": "github"
       },
       "original": {
         "owner": "tee8z",
-        "ref": "v0.5.0",
+        "ref": "v0.6.1",
         "repo": "via",
         "type": "github"
       }

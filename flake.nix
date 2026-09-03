@@ -9,7 +9,7 @@
     # Use current VS Code packaging independently of the NixOS Stable package set.
     nixpkgs-vscode.url = "github:NixOS/nixpkgs/nixos-unstable";
     viaSrc = {
-      url = "github:tee8z/via/v0.5.0";
+      url = "github:tee8z/via/v0.6.1";
       flake = false;
     };
   };
@@ -19,8 +19,8 @@
       system = "x86_64-linux";
       vscodeVersion = "1.132.0";
       vscodeRevision = "df53daabb18cd157bdb08c7f01c34df936cf12f4";
-      zedVersion = "1.17.2";
-      zedHash = "sha256-NoLdBYowXSskahTWRBn89C6GoG4ndV0jtaKGIu2a74U=";
+      zedVersion = "1.18.0";
+      zedHash = "sha256-YO4tons3jF0Ay/xOngyYQuN3lYA8RWV1T0G+VCOJh5k=";
       devshopProfiles = {
         base = ./profiles/base.nix;
         desktop = ./profiles/desktop.nix;

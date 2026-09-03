@@ -7,10 +7,10 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "via-cli";
-  version = "0.5.0";
+  version = "0.6.1";
 
   src = viaSrc;
-  cargoHash = "sha256-bNyXrTFTs9574YU1HIf7lJqhvh4o5Uy+/FDV1YgDGc0=";
+  cargoHash = "sha256-zmQOLhLlvQ26TE4YO8KpH5MXuzPI3GS66ncCGkuXmao=";
 
   nativeBuildInputs = [ makeWrapper ];
   nativeCheckInputs = [ cacert ];
@@ -23,7 +23,7 @@ rustPlatform.buildRustPackage rec {
   '';
 
   meta = {
-    description = "Run commands and API requests with 1Password-backed credentials";
+    description = "Run commands, SSH sessions, and API requests with 1Password-backed credentials";
     homepage = "https://github.com/tee8z/via";
     license = lib.licenses.mit;
     mainProgram = "via";
