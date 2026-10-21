@@ -21,6 +21,10 @@
       vscodeRevision = "df53daabb18cd157bdb08c7f01c34df936cf12f4";
       zedVersion = "1.18.0";
       zedHash = "sha256-YO4tons3jF0Ay/xOngyYQuN3lYA8RWV1T0G+VCOJh5k=";
+      # Node.js October 2026 security release. Drop the override once
+      # nixos-26.05 ships nodejs_22 >= 22.23.4.
+      nodejs22Version = "22.23.4";
+      nodejs22Hash = "sha256-e5rcgtYS0KKoY9lsRt4iklUuJQzuUZVuu+AUbEKqyuk=";
       devshopProfiles = {
         base = ./profiles/base.nix;
         desktop = ./profiles/desktop.nix;
@@ -44,6 +48,14 @@
           pgadmin4-runtime = final.callPackage ./packages/pgadmin4-runtime.nix { };
           sccache = sccachePkgs.sccache;
           via-cli = final.callPackage ./packages/via-cli.nix { inherit viaSrc; };
+
+          nodejs-slim_22 = prev.nodejs-slim_22.overrideAttrs (oldAttrs: {
+            version = nodejs22Version;
+            src = final.fetchurl {
+              url = "https://nodejs.org/dist/v${nodejs22Version}/node-v${nodejs22Version}.tar.xz";
+              hash = nodejs22Hash;
+            };
+          });
 
           # VS Code 1.121+ renders Mermaid diagrams natively with pan and zoom.
           vscode = vscodePkgs.vscode.overrideAttrs (oldAttrs: {
