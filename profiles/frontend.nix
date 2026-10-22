@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    nodejs_22
+    nodejs-bin_22
     corepack_22
     fnm
   ];

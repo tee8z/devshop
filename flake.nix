@@ -21,10 +21,11 @@
       vscodeRevision = "df53daabb18cd157bdb08c7f01c34df936cf12f4";
       zedVersion = "1.18.0";
       zedHash = "sha256-YO4tons3jF0Ay/xOngyYQuN3lYA8RWV1T0G+VCOJh5k=";
-      # Node.js October 2026 security release. Drop the override once
-      # nixos-26.05 ships nodejs_22 >= 22.23.4.
+      # Node.js October 2026 security release, as the official prebuilt
+      # binary: nixos-26.05 still ships nodejs_22 22.23.1, and building the
+      # source takes an hour. Drop nodejs-bin_22 once the channel catches up.
       nodejs22Version = "22.23.4";
-      nodejs22Hash = "sha256-e5rcgtYS0KKoY9lsRt4iklUuJQzuUZVuu+AUbEKqyuk=";
+      nodejs22BinHash = "sha256-GAW8015oFVWb0uuX20ONP9sOs6XmqXe3wbrcp2M36c4=";
       devshopProfiles = {
         base = ./profiles/base.nix;
         desktop = ./profiles/desktop.nix;
@@ -49,13 +50,33 @@
           sccache = sccachePkgs.sccache;
           via-cli = final.callPackage ./packages/via-cli.nix { inherit viaSrc; };
 
-          nodejs-slim_22 = prev.nodejs-slim_22.overrideAttrs (oldAttrs: {
+          # The node, npm, npx and corepack shells use. Packages that build
+          # with Node keep nixpkgs' cached nodejs_22, so nothing compiles Node.
+          nodejs-bin_22 = final.stdenv.mkDerivation {
+            pname = "nodejs-bin";
             version = nodejs22Version;
             src = final.fetchurl {
-              url = "https://nodejs.org/dist/v${nodejs22Version}/node-v${nodejs22Version}.tar.xz";
-              hash = nodejs22Hash;
+              url = "https://nodejs.org/dist/v${nodejs22Version}/node-v${nodejs22Version}-linux-x64.tar.xz";
+              hash = nodejs22BinHash;
             };
-          });
+            nativeBuildInputs = [ final.autoPatchelfHook ];
+            buildInputs = [ final.stdenv.cc.cc.lib ];
+            dontConfigure = true;
+            dontBuild = true;
+            installPhase = ''
+              runHook preInstall
+              mkdir -p $out
+              cp -r bin include lib share $out/
+              runHook postInstall
+            '';
+            meta = {
+              description = "Node.js ${nodejs22Version}, the official prebuilt Linux binary";
+              homepage = "https://nodejs.org";
+              license = final.lib.licenses.mit;
+              mainProgram = "node";
+              platforms = [ "x86_64-linux" ];
+            };
+          };
 
           # VS Code 1.121+ renders Mermaid diagrams natively with pan and zoom.
           vscode = vscodePkgs.vscode.overrideAttrs (oldAttrs: {
