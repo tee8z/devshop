@@ -8,17 +8,19 @@
     nixpkgs-zed.url = "github:NixOS/nixpkgs/nixos-unstable";
     # Use current VS Code packaging independently of the NixOS Stable package set.
     nixpkgs-vscode.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # LibreOffice's security fixes (26.2.5, 26.8) are not on NixOS Stable yet.
+    nixpkgs-libreoffice.url = "github:NixOS/nixpkgs/nixos-unstable";
     viaSrc = {
       url = "github:tee8z/via/v0.6.1";
       flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-sccache, nixpkgs-zed, nixpkgs-vscode, viaSrc, ... }:
+  outputs = { self, nixpkgs, nixpkgs-sccache, nixpkgs-zed, nixpkgs-vscode, nixpkgs-libreoffice, viaSrc, ... }:
     let
       system = "x86_64-linux";
-      vscodeVersion = "1.132.0";
-      vscodeRevision = "df53daabb18cd157bdb08c7f01c34df936cf12f4";
+      vscodeVersion = "1.144.0";
+      vscodeRevision = "2c33b50b16c472efe58357d1d2a8a5414bc23fbf";
       zedVersion = "1.18.0";
       zedHash = "sha256-YO4tons3jF0Ay/xOngyYQuN3lYA8RWV1T0G+VCOJh5k=";
       # Node.js October 2026 security release, as the official prebuilt
@@ -40,6 +42,7 @@
         let
           zedPkgs = nixpkgs-zed.legacyPackages.${system};
           sccachePkgs = nixpkgs-sccache.legacyPackages.${system};
+          libreofficePkgs = nixpkgs-libreoffice.legacyPackages.${system};
           vscodePkgs = import nixpkgs-vscode {
             inherit system;
             config.allowUnfree = true;
@@ -48,6 +51,7 @@
         {
           pgadmin4-runtime = final.callPackage ./packages/pgadmin4-runtime.nix { };
           sccache = sccachePkgs.sccache;
+          libreoffice-fresh = libreofficePkgs.libreoffice-fresh;
           via-cli = final.callPackage ./packages/via-cli.nix { inherit viaSrc; };
 
           # The node, npm, npx and corepack shells use. Packages that build
@@ -84,7 +88,7 @@
             src = vscodePkgs.fetchurl {
               name = "VSCode_${vscodeVersion}_linux-x64.tar.gz";
               url = "https://update.code.visualstudio.com/${vscodeVersion}/linux-x64/stable";
-              hash = "sha256-rNrw+lV72hcglW/2XKDeCWXpLWj5fi2yI0GYRACTeu0=";
+              hash = "sha256-F7cqfm9ApbXc6YUPEO6hPOc0pjBStn+gIcwB5xWtTPE=";
             };
             passthru = oldAttrs.passthru // {
               inherit vscodeVersion;
@@ -94,13 +98,13 @@
                 src = vscodePkgs.fetchurl {
                   name = "vscode-server-${vscodeRevision}.tar.gz";
                   url = "https://update.code.visualstudio.com/commit:${vscodeRevision}/server-linux-x64/stable";
-                  hash = "sha256-rfWBY2apqMQwdF+W/Xg99w52BqNTEZmarFO3CyV668A=";
+                  hash = "sha256-ZacT2Vu1mDEK2G202uoo+cP5aHtZ7p5Xs+cGCoEL+RY=";
                 };
                 stdenv = vscodePkgs.stdenvNoCC;
               };
             };
             meta = oldAttrs.meta // {
-              changelog = "https://code.visualstudio.com/updates/v1_132";
+              changelog = "https://code.visualstudio.com/updates/v1_144";
             };
           });
 
