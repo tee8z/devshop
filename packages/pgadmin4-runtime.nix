@@ -1,6 +1,6 @@
 { lib
 , stdenvNoCC
-, electron_41
+, electron_43
 , makeWrapper
 , nodejs
 , pgadmin4-desktopmode
@@ -78,7 +78,7 @@ stdenvNoCC.mkDerivation {
     }
     EOF
 
-    makeWrapper ${lib.getExe electron_41} "$out/bin/pgadmin4-desktop" \
+    makeWrapper ${lib.getExe electron_43} "$out/bin/pgadmin4-desktop" \
       --chdir "$app_dir" \
       --add-flags "$app_dir"
 
